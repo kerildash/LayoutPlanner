@@ -5,8 +5,75 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gui"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="450" MinHeight="450" Width="800" MinWidth="600" FontSize="15">
+    <TabControl >
+        <TabItem Header="Текущее задание" >
+            <StackPanel Margin="40, 0">
+                <TextBlock HorizontalAlignment="Center" Margin="30" FontSize="25">ЗАДАНИЕ НА РАСКЛАДКУ</TextBlock>
 
-    </Grid>
+                <StackPanel Orientation="Horizontal" Margin="0, 5">
+                    <TextBlock  FontSize="20" FontWeight="SemiBold">Продукт: </TextBlock>
+                    <TextBlock FontSize="20" FontWeight="SemiBold"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 30">
+                    <TextBlock FontSize="20" FontWeight="SemiBold">GTIN:</TextBlock>
+                    <TextBlock FontSize="20" FontWeight="SemiBold"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="20" FontWeight="SemiBold">Объём бутылки:</TextBlock>
+                    <TextBlock FontSize="20" FontWeight="SemiBold"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="20" FontWeight="SemiBold">Формат короба:</TextBlock>
+                    <TextBlock FontSize="20" FontWeight="SemiBold"></TextBlock>
+
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="20" FontWeight="SemiBold">Формат паллета:</TextBlock>
+                    <TextBlock FontSize="20" FontWeight="SemiBold"></TextBlock>
+                </StackPanel>
+                <Button Content="Импортировать коды" HorizontalAlignment="Left" Padding="10, 8" Margin="0, 40" FontSize="20"></Button>
+            </StackPanel>
+        </TabItem>
+        <TabItem Header="Продукция">
+            <DataGrid>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Path=A}" Width="0.1*" MinWidth="60"/>
+                    <DataGridHyperlinkColumn Header="Код единицы продукции" Binding="{Binding Path=A}" Width="0.7*"/>
+                    <DataGridTextColumn Header="Id короба" Binding="{Binding Path=A}" Width="0.2*" MinWidth="100" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </TabItem>
+
+        <TabItem Header="Короба">
+            <DataGrid>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Path=A}" Width="0.1*" MinWidth="60"/>
+                    <DataGridHyperlinkColumn Header="Код короба" Binding="{Binding Path=A}" Width="0.7*"/>
+                    <DataGridTextColumn Header="Id паллета" Binding="{Binding Path=A}" Width="0.2*" MinWidth="100" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </TabItem>
+
+        <TabItem Header="Паллеты">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="60"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <DataGrid Grid.Row="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Binding="{Binding Path=A}" Width="0.1*" MinWidth="60"/>
+                        <DataGridHyperlinkColumn Header="Код паллета" Binding="{Binding Path=A}" Width="0.9*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Button Grid.Row="1" Content="Создать карту раскладки" HorizontalAlignment="Right" Margin="10" Padding="20, 0"></Button>
+            </Grid>
+
+        </TabItem>
+    </TabControl>
 </Window>
