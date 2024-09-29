@@ -1,24 +1,31 @@
-﻿using System.Text;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Services;
+using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace Gui
+namespace Gui;
+
+
+public partial class MainWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public IServiceProvider ServiceProvider { get; private set; }
+
+    public MainWindow()
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
+        ServiceCollection services = new();
+        services.AddTransient<HttpService>();
+        services.AddTransient<MissionService>();
+
+        services.AddScoped<DialogService>();
+        services.AddSingleton<MainWindowViewModel>();
+
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        ServiceProvider = services.BuildServiceProvider();
+
+        services.AddScoped<ServiceProvider>();
+        MainWindowViewModel viewModel = ServiceProvider.GetRequiredService<MainWindowViewModel>();
+        DataContext = viewModel;
     }
+
+    
 }
