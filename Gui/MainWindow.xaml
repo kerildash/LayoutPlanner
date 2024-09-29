@@ -12,25 +12,27 @@
                 <TextBlock HorizontalAlignment="Center" Margin="30" FontSize="25">ЗАДАНИЕ НА РАСКЛАДКУ</TextBlock>
 
                 <StackPanel Orientation="Horizontal" Margin="0, 5">
-                    <TextBlock  FontSize="20" FontWeight="SemiBold">Продукт: </TextBlock>
-                    <TextBlock FontSize="20" FontWeight="SemiBold"></TextBlock>
+                    <TextBlock  FontSize="20" FontWeight="SemiBold" Text="Продукт: "/>
+                    <TextBlock FontSize="20"  Text="{Binding Mission.Product.Name, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 30">
-                    <TextBlock FontSize="20" FontWeight="SemiBold">GTIN:</TextBlock>
-                    <TextBlock FontSize="20" FontWeight="SemiBold"></TextBlock>
+                    <TextBlock FontSize="20" FontWeight="SemiBold" Text="GTIN: "/>
+                    <TextBlock FontSize="20"  Text="{Binding Mission.Product.Gtin, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock FontSize="20" FontWeight="SemiBold">Объём бутылки:</TextBlock>
-                    <TextBlock FontSize="20" FontWeight="SemiBold"></TextBlock>
+                    <TextBlock FontSize="20" FontWeight="SemiBold" Text="Объём бутылки: "/>
+                    <TextBlock FontSize="20"  Text="{Binding Mission.Package.Volume, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock FontSize="20" FontWeight="SemiBold">Формат короба:</TextBlock>
-                    <TextBlock FontSize="20" FontWeight="SemiBold"></TextBlock>
+                    <TextBlock FontSize="20" FontWeight="SemiBold" Text="Формат короба: "/>
+                    <TextBlock FontSize="20"  Text="{Binding Mission.Package.BoxFormat, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock FontSize="20"  Text=" бут."/>
 
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock FontSize="20" FontWeight="SemiBold">Формат паллета:</TextBlock>
-                    <TextBlock FontSize="20" FontWeight="SemiBold"></TextBlock>
+                    <TextBlock FontSize="20" FontWeight="SemiBold" Text="Формат паллета: "/>
+                    <TextBlock FontSize="20"  Text="{Binding Mission.Package.PalletFormat, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock FontSize="20"  Text=" кор."/>
                 </StackPanel>
                 <Button Content="Импортировать коды" HorizontalAlignment="Left" Padding="10, 8" Margin="0, 40" FontSize="20"></Button>
             </StackPanel>
