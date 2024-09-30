@@ -34,7 +34,7 @@
                     <TextBlock FontSize="20"  Text="{Binding Mission.Package.PalletFormat, UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBlock FontSize="20"  Text=" кор."/>
                 </StackPanel>
-                <Button Content="Импортировать коды" HorizontalAlignment="Left" Padding="10, 8" Margin="0, 40" FontSize="20"></Button>
+                <Button Content="Импортировать коды" Command="{Binding LoadCodesAsync}" HorizontalAlignment="Left" Padding="10, 8" Margin="0, 40" FontSize="20"></Button>
             </StackPanel>
         </TabItem>
         <TabItem Header="Продукция">
