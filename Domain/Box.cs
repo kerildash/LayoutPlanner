@@ -5,7 +5,7 @@ public class Box
     public Guid Id { get; }
     public string Code { get; }
     public virtual List<Item>? Items { get; private set; }
-    public virtual Pallet? Pallet { get; }
+    public virtual Pallet? Pallet { get; set; }
     public int Capacity { get; }
 
     public Box(string gtin, int capacity)
@@ -13,11 +13,17 @@ public class Box
         Id = Guid.NewGuid();
         Code = CreateCode(gtin, capacity);
         Capacity = capacity;
+        Items = [];
+    }
+    public bool IsFull()
+    {
+        return Items.Count == Capacity;
     }
     public void AddItem(Item item)
     {
         if (Items.Count < Capacity)
         {
+            item.Box = this;
             Items.Add(item);
         }
         else
