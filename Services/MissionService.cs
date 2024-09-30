@@ -1,4 +1,5 @@
 ﻿using Domain.Info;
+using Domain;
 using Newtonsoft.Json.Linq;
 namespace Services;
 
@@ -19,5 +20,23 @@ public class MissionService(HttpService httpService)
         mission.Product = result["lot"]["product"].ToObject<Product>();
 
         return mission;
+    }
+
+    public async Task LoadCodesAsync(string path, Mission mission)
+    {
+        string? line = null;
+        using Stream stream = File.OpenRead(path);
+        using StreamReader reader = new(stream);
+
+        Layout layout = new(mission.Product.Gtin, mission.Package.BoxFormat, mission.Package.PalletFormat);
+
+        while ((line = await reader.ReadLineAsync()) != null)
+        {
+            if (line.Contains(mission.Product.Gtin))
+            {
+                Item item = new Item { Code = line, Id = Guid.NewGuid() };
+                layout.AddItem(item);
+            }
+        }
     }
 }
