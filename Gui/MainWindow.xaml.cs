@@ -26,6 +26,4 @@ public partial class MainWindow : Window
         MainWindowViewModel viewModel = ServiceProvider.GetRequiredService<MainWindowViewModel>();
         DataContext = viewModel;
     }
-
-    
 }
