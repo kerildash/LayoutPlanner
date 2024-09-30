@@ -22,7 +22,7 @@ public class MissionService(HttpService httpService)
         return mission;
     }
 
-    public async Task LoadCodesAsync(string path, Mission mission)
+    public async Task<Layout> LoadCodesAsync(string path, Mission mission)
     {
         string? line = null;
         using Stream stream = File.OpenRead(path);
@@ -38,5 +38,6 @@ public class MissionService(HttpService httpService)
                 layout.AddItem(item);
             }
         }
+        return layout;
     }
 }
