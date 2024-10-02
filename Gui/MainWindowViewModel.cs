@@ -1,19 +1,20 @@
 ﻿using AsyncAwaitBestPractices.MVVM;
 using Domain;
 using Domain.Info;
+using Newtonsoft.Json;
 using Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Gui;
 
-internal class MainWindowViewModel : INotifyPropertyChanged
+public class MainWindowViewModel : INotifyPropertyChanged
 {
     private readonly DialogService _dialog;
     private readonly MissionService _missionService;
 
     private Mission _mission;
-    
+
     public Mission Mission
     {
         get
@@ -39,8 +40,46 @@ internal class MainWindowViewModel : INotifyPropertyChanged
         {
             _layout = value;
             OnPropertyChanged();
+            OnPropertyChanged("Pallets");
+            OnPropertyChanged("Boxes");
+            OnPropertyChanged("Items");
+            SaveLayoutAsJsonAsync.RaiseCanExecuteChanged();
         }
     }
+
+    private List<Pallet> _test;
+    public List<Pallet> Pallets
+    {
+        get => Layout.GetPallets().ToList();
+        set { }
+    }
+    public IEnumerable<Box> Boxes
+    {
+        get => Layout.GetBoxes().ToList();
+        set { }
+    }
+    public IEnumerable<Item> Items
+    {
+        get => Layout.GetItems().ToList();
+        set { }
+    }
+
+    public MainWindowViewModel(MissionService service, DialogService dialog)
+    {
+
+
+        LoadCodesAsync = new AsyncCommand(OnLoadCodesAsync, CanLoadCodesAsyncExecuted);
+        SaveLayoutAsJsonAsync = new AsyncCommand(OnSaveLayoutAsJsonAsync, CanSaveLayoutAsJsonAsyncExecuted);
+
+        _missionService = service;
+        _dialog = dialog;
+
+        Layout = new Layout();
+        Mission mission = Task.Run(() => service.GetMissionAsync()).Result;
+        Mission = mission;
+
+    }
+
     #region commands
     public IAsyncCommand LoadCodesAsync { get; }
     public async Task OnLoadCodesAsync()
@@ -48,11 +87,14 @@ internal class MainWindowViewModel : INotifyPropertyChanged
         string? path;
         try
         {
+            int itemsAdded = 0;
             bool result = _dialog.OpenFile(out path);
             if (result)
             {
                 Layout = await _missionService.LoadCodesAsync(path, Mission);
+                _dialog.ShowMessage("Коды импортированы. Перейдите на другие вкладки для просмотра информации.");
             }
+
         }
         catch (Exception e)
         {
@@ -61,20 +103,31 @@ internal class MainWindowViewModel : INotifyPropertyChanged
     }
 
     public bool CanLoadCodesAsyncExecuted(object parameter) => true;
+
+
+    public IAsyncCommand SaveLayoutAsJsonAsync { get; }
+    public async Task OnSaveLayoutAsJsonAsync()
+    {
+        string? path;
+        try
+        {
+            string json = JsonConvert.SerializeObject(Layout, Formatting.Indented);
+            if (_dialog.SaveFileAs(out path))
+            {
+                System.IO.File.WriteAllText(path, json);
+                _dialog.ShowMessage($"JSON-файл с раскладкой продукции сохранён:\n {path}");
+            }
+        }
+        catch (Exception e)
+        {
+            _dialog.ShowMessage(e.Message);
+        }
+    }
+
+    public bool CanSaveLayoutAsJsonAsyncExecuted(object parameter) => Layout.Pallets.Count > 0;
     #endregion
 
 
-    public MainWindowViewModel(MissionService service, DialogService dialog)
-    {
-        _missionService = service;
-        _dialog = dialog;
-
-        Mission mission = Task.Run(() => service.GetMissionAsync()).Result;
-        Mission = mission;
-
-        LoadCodesAsync = new AsyncCommand(OnLoadCodesAsync, CanLoadCodesAsyncExecuted);
-
-    }
     public event PropertyChangedEventHandler PropertyChanged;
     public void OnPropertyChanged([CallerMemberName] string prop = "")
     {
