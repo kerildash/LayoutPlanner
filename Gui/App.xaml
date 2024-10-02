@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:Gui"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <local:Container x:Key="Container"/>
     </Application.Resources>
+
 </Application>
