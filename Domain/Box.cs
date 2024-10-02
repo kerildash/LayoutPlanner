@@ -1,19 +1,27 @@
-﻿namespace Domain;
+﻿using Newtonsoft.Json;
 
-public class Box
+namespace Domain;
+
+public class Box 
 {
-    public Guid Id { get; }
-    public string Code { get; }
+    public int Id { get; set; }
+    [JsonIgnore]
+    private string? Gtin { get; }
+    [JsonIgnore]
+    public string CodeWithoutId { get; set; }
+    public string Code { get => $"{CodeWithoutId}{Id}"; set { } }
     public virtual List<Item>? Items { get; private set; }
+    [JsonIgnore]
     public virtual Pallet? Pallet { get; set; }
     public int Capacity { get; }
 
+    public Box() { }
     public Box(string gtin, int capacity)
     {
-        Id = Guid.NewGuid();
-        Code = CreateCode(gtin, capacity);
-        Capacity = capacity;
+        Gtin = gtin;
         Items = [];
+        CodeWithoutId = CreateCode();
+        Capacity = capacity;
     }
     public bool IsFull()
     {
@@ -25,15 +33,16 @@ public class Box
         {
             item.Box = this;
             Items.Add(item);
+            CodeWithoutId = CreateCode();
         }
         else
         {
             throw new InvalidOperationException("Cannot load item to a box: the box is full");
         }
     }
-    private string CreateCode(string gtin, int capacity)
+    private string CreateCode()
     {
-        return $"01{gtin}37{capacity}21{Id}";
+        return $"01{Gtin}37{Items.Count}21";
     }
-    
+
 }

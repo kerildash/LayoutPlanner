@@ -1,10 +1,14 @@
-﻿namespace Domain;
+﻿using Newtonsoft.Json;
+
+namespace Domain;
 
 public class Item
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
     public string Code { get; set; }
-    public virtual Box? Box { get; set; }
+    [JsonIgnore]
+    public Box? Box { get; set; }
+    public Item() { }
 
-    
+
 }
