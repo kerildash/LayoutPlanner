@@ -5,8 +5,6 @@ namespace Gui;
 
 public class DialogService
 {
-    public string FilePath { get; set; }
-
     public bool OpenFile(out string? path)
     {
         try
@@ -26,32 +24,18 @@ public class DialogService
             throw;
         }
     }
-    public bool SaveFile()
-    {
-        try
-        {
-            if (FilePath == null)
-            {
-                return SaveFileAs();
-            }
-            return true;
-        }
-        catch
-        {
-            throw;
-        }
-    }
-    public bool SaveFileAs()
+    public bool SaveFileAs(out string? path)
     {
         try
         {
             SaveFileDialog saveDialog = new SaveFileDialog();
-            saveDialog.Filter = "Text files(*.txt)|*.txt| All files(*.*) |*.*";
+            saveDialog.Filter = "Json files(*.json)|*.json|Text files(*.txt)|*.txt| All files(*.*) |*.*";
             if (saveDialog.ShowDialog() == true)
             {
-                FilePath = saveDialog.FileName;
+                path = saveDialog.FileName;
                 return true;
             }
+            path = null;
             return false;
         }
         catch
