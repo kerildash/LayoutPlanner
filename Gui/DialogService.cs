@@ -49,4 +49,16 @@ public class DialogService
             MessageBox.Show(message);
         }
     }
+    public bool ShowYesNoMessage(
+        string message,
+        string caption = "Внимание",
+        MessageBoxImage image = MessageBoxImage.Question)
+    {
+        MessageBoxResult result = MessageBox.Show(message, caption, MessageBoxButton.YesNo, image);
+        if (result == MessageBoxResult.Yes)
+        {
+            return true;
+        }        
+        return false;
+    }
 }
