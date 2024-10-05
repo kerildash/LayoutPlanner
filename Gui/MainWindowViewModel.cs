@@ -41,9 +41,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             _layout = value;
             OnPropertyChanged();
-            OnPropertyChanged("Pallets");
-            OnPropertyChanged("Boxes");
-            OnPropertyChanged("Items");
+            OnPropertyChanged(nameof(Pallets));
+            OnPropertyChanged(nameof(Boxes));
+            OnPropertyChanged(nameof(Items));
             SaveLayoutAsJsonAsync.RaiseCanExecuteChanged();
         }
     }
