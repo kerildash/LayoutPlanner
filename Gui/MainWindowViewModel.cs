@@ -50,25 +50,14 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     private List<Pallet> _test;
     public List<Pallet> Pallets
-    {
-        get => Layout.GetPallets().ToList();
-        set { }
-    }
+        => Layout.GetPallets().ToList();
     public IEnumerable<Box> Boxes
-    {
-        get => Layout.GetBoxes().ToList();
-        set { }
-    }
+        => Layout.GetBoxes().ToList();
     public IEnumerable<Item> Items
-    {
-        get => Layout.GetItems().ToList();
-        set { }
-    }
+        => Layout.GetItems().ToList();
 
     public MainWindowViewModel(MissionService service, DialogService dialog)
     {
-
-
         LoadCodesAsync = new AsyncCommand(OnLoadCodesAsync, CanLoadCodesAsyncExecuted);
         SaveLayoutAsJsonAsync = new AsyncCommand(OnSaveLayoutAsJsonAsync, CanSaveLayoutAsJsonAsyncExecuted);
 
@@ -77,7 +66,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
         Layout = new Layout();
         Mission = GetMission();
-
     }
 
     public Mission GetMission()
