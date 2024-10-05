@@ -11,9 +11,13 @@ namespace Gui;
 
 public class MainWindowViewModel : INotifyPropertyChanged
 {
+    #region services
+
     private readonly DialogService _dialog;
     private readonly MissionService _missionService;
+    #endregion
 
+    #region properties
     private Mission _mission;
 
     public Mission Mission
@@ -56,6 +60,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public IEnumerable<Item> Items
         => Layout.GetItems().ToList();
 
+    #endregion
+
+    #region constructors
     public MainWindowViewModel(MissionService service, DialogService dialog)
     {
         LoadCodesAsyncCommand = new AsyncCommand(OnLoadCodesAsync, CanLoadCodesAsyncExecuted);
@@ -67,7 +74,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
         Layout = new Layout();
         Mission = GetMission();
     }
+    #endregion
 
+    #region methods
     public Mission GetMission()
     {
         try
@@ -89,6 +98,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
             return null;
         }
     }
+    #endregion
+
     #region commands
     public IAsyncCommand LoadCodesAsyncCommand { get; }
     public async Task OnLoadCodesAsync()
@@ -136,7 +147,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public bool CanSaveLayoutAsJsonAsyncExecuted(object parameter) => Layout.Pallets.Count > 0;
     #endregion
 
-
+    #region events
     public event PropertyChangedEventHandler PropertyChanged;
     public void OnPropertyChanged([CallerMemberName] string prop = "")
     {
@@ -145,4 +156,5 @@ public class MainWindowViewModel : INotifyPropertyChanged
             PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
     }
+    #endregion
 }
