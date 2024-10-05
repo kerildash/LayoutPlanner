@@ -89,7 +89,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         catch (Exception ex)
         {
             string message =
-                "Ошибка при попытке получить данные о задании " +
+                "Ошибка при попытке получить или обработать данные о задании " +
                 "на раскладку от сервера. Повторить попытку?\n\n" +
                 ex.Message;
 

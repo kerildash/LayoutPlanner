@@ -13,18 +13,27 @@ public class MissionService(
     public async Task<Mission> GetMissionAsync(string uri = "http://promark94.marking.by/client/api/get/task/")
     {
 
-        Mission mission = null;
+        Mission? mission = null;
 
         string jsonResponse = await httpService.GetAsync(uri);
-        JObject response = JObject.Parse(jsonResponse);
 
-        JToken result = response["mission"];
+        try
+        {
 
-        mission = result.ToObject<Mission>();
-        mission.Package = result["lot"]["package"].ToObject<Package>();
-        mission.Product = result["lot"]["product"].ToObject<Product>();
+            JObject response = JObject.Parse(jsonResponse);
 
-        return mission;
+            JToken? result = response["mission"];
+
+            mission = result.ToObject<Mission>();
+            mission.Package = result["lot"]["package"].ToObject<Package>();
+            mission.Product = result["lot"]["product"].ToObject<Product>();
+
+            return mission;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("JSON deserialization error. " + ex.Message);
+        }
     }
 
     public async Task<Layout> LoadCodesAsync(string path, Mission mission)
