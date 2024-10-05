@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace Gui;
 
@@ -75,11 +76,31 @@ public class MainWindowViewModel : INotifyPropertyChanged
         _dialog = dialog;
 
         Layout = new Layout();
-        Mission mission = Task.Run(() => service.GetMissionAsync()).Result;
-        Mission = mission;
+        Mission = GetMission();
 
     }
 
+    public Mission GetMission()
+    {
+        try
+        {
+            return Task.Run(() => _missionService.GetMissionAsync()).Result;
+        }
+        catch (Exception ex)
+        {
+            string message =
+                "Ошибка при попытке получить данные о миссии от сервера. Повторить попытку?\n" +
+                ex.Message;
+
+            bool result = _dialog.ShowYesNoMessage(message, image: MessageBoxImage.Exclamation);
+            if (result) 
+                {
+                    return GetMission();
+                }
+            Application.Current.Shutdown();
+            return null;
+        }
+    }
     #region commands
     public IAsyncCommand LoadCodesAsync { get; }
     public async Task OnLoadCodesAsync()
