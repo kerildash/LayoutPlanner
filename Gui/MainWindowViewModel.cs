@@ -44,7 +44,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             OnPropertyChanged(nameof(Pallets));
             OnPropertyChanged(nameof(Boxes));
             OnPropertyChanged(nameof(Items));
-            SaveLayoutAsJsonAsync.RaiseCanExecuteChanged();
+            SaveLayoutAsJsonAsyncCommand.RaiseCanExecuteChanged();
         }
     }
 
@@ -58,8 +58,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     public MainWindowViewModel(MissionService service, DialogService dialog)
     {
-        LoadCodesAsync = new AsyncCommand(OnLoadCodesAsync, CanLoadCodesAsyncExecuted);
-        SaveLayoutAsJsonAsync = new AsyncCommand(OnSaveLayoutAsJsonAsync, CanSaveLayoutAsJsonAsyncExecuted);
+        LoadCodesAsyncCommand = new AsyncCommand(OnLoadCodesAsync, CanLoadCodesAsyncExecuted);
+        SaveLayoutAsJsonAsyncCommand = new AsyncCommand(OnSaveLayoutAsJsonAsync, CanSaveLayoutAsJsonAsyncExecuted);
 
         _missionService = service;
         _dialog = dialog;
@@ -90,7 +90,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
     #region commands
-    public IAsyncCommand LoadCodesAsync { get; }
+    public IAsyncCommand LoadCodesAsyncCommand { get; }
     public async Task OnLoadCodesAsync()
     {
         string? path;
@@ -114,7 +114,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public bool CanLoadCodesAsyncExecuted(object parameter) => true;
 
 
-    public IAsyncCommand SaveLayoutAsJsonAsync { get; }
+    public IAsyncCommand SaveLayoutAsJsonAsyncCommand { get; }
     public async Task OnSaveLayoutAsJsonAsync()
     {
         string? path;
