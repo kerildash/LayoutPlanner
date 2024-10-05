@@ -89,7 +89,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
         catch (Exception ex)
         {
             string message =
-                "Ошибка при попытке получить данные о миссии от сервера. Повторить попытку?\n" +
+                "Ошибка при попытке получить данные о задании " +
+                "на раскладку от сервера. Повторить попытку?\n\n" +
                 ex.Message;
 
             bool result = _dialog.ShowYesNoMessage(message, image: MessageBoxImage.Exclamation);
