@@ -23,21 +23,19 @@ public class Pallet
     }
     public bool IsFull()
     {
-        return Boxes.Any() && Boxes.Count == Capacity && Boxes.Last().IsFull();
-    }
-    public void AddBox(Box box)
-    {
-        if (Boxes.Count < Capacity)
-        {
-            Boxes.Add(box);
-        }
-        else
-        {
-            throw new InvalidOperationException("Cannot load the box to the pallet: this pallet is full");
-        }
+        return Boxes != null && Boxes.Count == Capacity && Boxes.Last().IsFull();
     }
     public void AddItemToPallet(Item item, string gtin, int boxFormat)
     {
+        if (item is null)
+        {
+            throw new ArgumentNullException(nameof(item),
+                "Layout generation failed: the item is null");
+        }
+        if (Boxes is null)
+        {
+            Boxes = [];
+        }
         if (Boxes.Any() && !Boxes.Last().IsFull())
         {
             Boxes.Last().AddItem(item);
@@ -50,11 +48,6 @@ public class Pallet
             Boxes.Add(newBox);
             CodeWithoutId = CreateCode();
         }
-    }
-    public void AddItemToLastBox(Item item)
-    {
-        Box box = Boxes.Last();
-        box.AddItem(item);
     }
     private string CreateCode()
     {

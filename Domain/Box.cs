@@ -29,6 +29,15 @@ public class Box
     }
     public void AddItem(Item item)
     {
+        if (item is null)
+        {
+            throw new ArgumentNullException(nameof(item),
+                "Layout generation failed: the item is null");
+        }
+        if (Items is null)
+        {
+            Items = [];
+        }
         if (Items.Count < Capacity)
         {
             item.Box = this;
@@ -37,12 +46,12 @@ public class Box
         }
         else
         {
-            throw new InvalidOperationException("Cannot load item to a box: the box is full");
+            throw new InvalidOperationException(
+                "Cannot load item to a box: the box is full");
         }
     }
     private string CreateCode()
     {
         return $"01{Gtin}37{Items.Count}21";
     }
-
 }

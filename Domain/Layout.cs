@@ -5,9 +5,7 @@ public class Layout
     public string ProductName { get; set; }
     public string Gtin { get; }
     public int BoxFormat { get; }
-
     public int PalletFormat { get; }
-
     public List<Pallet> Pallets { get; set; }
     public Layout()
     {
@@ -26,13 +24,11 @@ public class Layout
 
     public IEnumerable<Pallet> GetPallets()
     {
-        //if (Pallets.Any()) yield return new Pallet { };
         foreach (var pallet in Pallets)
         {
             yield return pallet;
         }
     }
-
     public IEnumerable<Box> GetBoxes()
     {
         foreach (var pallet in Pallets)
@@ -56,13 +52,20 @@ public class Layout
     }
     #endregion
 
-
     public void AddItem(Item item)
     {
-        if (Pallets.Any() && !Pallets.Last().IsFull())
+        if (item is null)
+        {
+            throw new ArgumentNullException(nameof(item),
+                "Layout generation failed: the item is null");
+        }
+        if (Pallets is null)
+        {
+            Pallets = [];
+        }
+        if (Pallets != null && Pallets.Any() && !Pallets.Last().IsFull())
         {
             Pallets.Last().AddItemToPallet(item, Gtin, BoxFormat);
-
         }
         else
         {
@@ -70,6 +73,5 @@ public class Layout
             newPallet.AddItemToPallet(item, Gtin, BoxFormat);
             Pallets.Add(newPallet);
         }
-
     }
 }

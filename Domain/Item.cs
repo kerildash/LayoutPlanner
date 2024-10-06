@@ -9,6 +9,4 @@ public class Item
     [JsonIgnore]
     public Box? Box { get; set; }
     public Item() { }
-
-
 }
