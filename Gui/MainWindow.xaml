@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gui"
+        xmlns:ucs="clr-namespace:Gui.UserControls"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" MinHeight="450" Width="800" MinWidth="600" FontSize="15"
         DataContext="{Binding Source={StaticResource Container}, Path=MainWindowViewModel}">
@@ -39,44 +40,14 @@
             </StackPanel>
         </TabItem>
         <TabItem Header="Продукция">
-            <DataGrid ItemsSource="{Binding Path=Items, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged}" Width="0.1*" MinWidth="60"/>
-                    <DataGridTextColumn Header="Код единицы продукции" Binding="{Binding Path=Code, UpdateSourceTrigger=PropertyChanged}" Width="0.7*"/>
-                    <DataGridTextColumn Header="Id короба" Binding="{Binding Path=Box.Id, UpdateSourceTrigger=PropertyChanged}" Width="0.2*" MinWidth="100" />
-                </DataGrid.Columns>
-            </DataGrid>
+            <ucs:ItemsUserControl/>
         </TabItem>
-
         <TabItem Header="Короба">
-            <DataGrid ItemsSource="{Binding Path=Boxes, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged}" Header="Id"  Width="0.1*" MinWidth="60"/>
-                    <DataGridTextColumn Binding="{Binding Path=Code, UpdateSourceTrigger=PropertyChanged}" Header="Код короба"  Width="0.7*"/>
-                    <DataGridTextColumn Binding="{Binding Path=Pallet.Id, UpdateSourceTrigger=PropertyChanged}" Header="Id паллета"  Width="0.2*" MinWidth="100" />
-                </DataGrid.Columns>
-            </DataGrid>
+            <ucs:BoxesUserControl/>
         </TabItem>
-
         <TabItem Header="Паллеты">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="60"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <DataGrid Grid.Row="0" ItemsSource="{Binding Path=Pallets, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged}" Header="Id"  Width="0.1*" MinWidth="60"/>
-                        <DataGridTextColumn Binding="{Binding Path=Code, UpdateSourceTrigger=PropertyChanged}" Header="Код паллета" Width="0.9*" />
-                    </DataGrid.Columns>
-                </DataGrid>
-
-                <Button Command="{Binding SaveLayoutAsJsonAsyncCommand}" Grid.Row="1" Content="Создать карту раскладки" HorizontalAlignment="Right" Margin="10" Padding="20, 0"></Button>
-            </Grid>
-
+            <ucs:PalletsUserControl/>
         </TabItem>
+        
     </TabControl>
 </Window>
